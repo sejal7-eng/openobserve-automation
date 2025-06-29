@@ -1,0 +1,10 @@
+replicaCount: 1
+
+image:
+  repository: public.ecr.aws/zinclabs/openobserve
+  tag: latest
+
+service:
+  type: NodePort
+  port: 5080
+  nodePort: 30080
