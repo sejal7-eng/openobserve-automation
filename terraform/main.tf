@@ -9,5 +9,5 @@ resource "helm_release" "openobserve" {
   namespace  = kubernetes_namespace.openobserve.metadata[0].name
 
   # IMPORTANT: use local chart path
-  chart      = "../helm/openobserve"
+  chart      = "../helm-charts/openobserve"
 }
