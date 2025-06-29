@@ -13,10 +13,15 @@ spec:
         app: openobserve
     spec:
       containers:
-      - name: openobserve
-        image: public.ecr.aws/zinclabs/openobserve:latest
-        ports:
-        - containerPort: 5080
+        - name: openobserve
+          image: public.ecr.aws/zinclabs/openobserve:v0.15.0-rc2
+          ports:
+            - containerPort: 5080
+          env:
+            - name: ZO_ROOT_USER_EMAIL
+              value: "admin@example.com"
+            - name: ZO_ROOT_USER_PASSWORD
+              value: "changeme"
 ---
 apiVersion: v1
 kind: Service
@@ -27,6 +32,6 @@ spec:
   selector:
     app: openobserve
   ports:
-  - port: 5080
-    targetPort: 5080
-    nodePort: 30081
+    - port: 5080
+      targetPort: 5080
+      nodePort: 30081
