@@ -9,6 +9,8 @@ terraform {
       version = "~> 2.13"
     }
   }
+
+  required_version = ">= 1.0"
 }
 
 provider "kubernetes" {

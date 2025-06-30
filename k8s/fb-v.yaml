@@ -1,0 +1,27 @@
+config:
+  service: |
+    [SERVICE]
+        Flush        1
+        Daemon       Off
+        Log_Level    info
+
+  input: |
+    [INPUT]
+        Name          tail
+        Path          /var/log/containers/*.log
+        Tag           kube.*
+        Parser        docker
+        DB            /var/log/flb_kube.db
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+
+  output: |
+    [OUTPUT]
+        Name  http
+        Match *
+        Host  openobserve.openobserve-test-new-1.svc.cluster.local
+        Port  5080
+        URI   /api/default/_ingest/logstream
+        Format json
+        Header Authorization Basic YWRtaW5AZXhhbXBsZS5jb206c3VwZXJzZWN1cmVwYXNzd29yZA==
+        Header Content-Type application/json

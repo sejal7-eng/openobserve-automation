@@ -1,5 +1,5 @@
 variable "namespace" {
-  description = "Namespace for OpenObserve"
+  description = "Namespace for OpenObserve and Logging App"
   type        = string
-  default     = "openobserve"
+  default     = "openobserve-test-new-1"
 }
