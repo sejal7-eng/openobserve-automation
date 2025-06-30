@@ -1,27 +1,41 @@
-config:
-  service: |
-    [SERVICE]
-        Flush        1
-        Daemon       Off
-        Log_Level    info
+service:
+  type: ClusterIP
 
-  input: |
-    [INPUT]
-        Name          tail
-        Path          /var/log/containers/*.log
-        Tag           kube.*
-        Parser        docker
-        DB            /var/log/flb_kube.db
-        Mem_Buf_Limit 5MB
-        Skip_Long_Lines On
+rbac:
+  create: true
 
-  output: |
-    [OUTPUT]
-        Name  http
-        Match *
-        Host  openobserve.openobserve-test-new-1.svc.cluster.local
-        Port  5080
-        URI   /api/default/_ingest/logstream
-        Format json
-        Header Authorization Basic YWRtaW5AZXhhbXBsZS5jb206c3VwZXJzZWN1cmVwYXNzd29yZA==
-        Header Content-Type application/json
+serviceAccount:
+  create: true
+
+input:
+  tail:
+    enabled: true
+    path: "/var/log/containers/*.log"
+    parser: docker
+    refresh_interval: 5
+    mem_buf_limit: 5MB
+    skip_long_lines: On
+
+filter:
+  kubernetes:
+    enabled: true
+    mergeLog: true
+    mergeLogKey: log_processed
+    keepLog: true
+    labels: true
+    annotations: true
+    extraMetadata: true
+    extraMetadataFields:
+      - container_name
+      - namespace_name
+      - pod_name
+
+outputs:
+  http:
+    enabled: true
+    host: openobserve.openobserve-test-new-1.svc.cluster.local
+    port: 5080
+    uri: "/api/default/_ingest"
+    header:
+      ZO-USER: "admin@example.com"
+      ZO-PASSWORD: "supersecurepassword"
