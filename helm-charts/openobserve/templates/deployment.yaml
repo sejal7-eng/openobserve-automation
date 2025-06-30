@@ -19,3 +19,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: 5080
+          env:
+            - name: ZO_ROOT_USER_EMAIL
+              value: "admin@example.com"
+            - name: ZO_ROOT_USER_PASSWORD
+              value: "supersecurepassword"
