@@ -169,7 +169,7 @@ Confirm Terraform applied resources correctly
   kubectl delete ns observability
   ```
 
-Delete Minikube cluster:
+ Delete Minikube cluster:
   ```
   minikube delete
   ```
